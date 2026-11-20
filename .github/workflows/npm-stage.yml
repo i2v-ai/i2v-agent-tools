@@ -1,0 +1,60 @@
+name: Stage npm preview
+on:
+  workflow_dispatch:
+    inputs:
+      package:
+        description: Package to stage on the npm next tag
+        required: true
+        type: choice
+        options:
+          - cli
+          - sdk
+      version:
+        description: Expected package.json version
+        required: true
+        type: string
+
+permissions: {}
+
+concurrency:
+  group: npm-stage-${{ inputs.package }}
+  cancel-in-progress: false
+
+jobs:
+  stage:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+          package-manager-cache: false
+      - run: npm install --global --ignore-scripts npm@11.21.3
+      - name: Check release version
+        env:
+          PACKAGE: ${{ inputs.package }}
+          EXPECTED_VERSION: ${{ inputs.version }}
+        run: |
+          case "$PACKAGE" in cli|sdk) ;; *) exit 1 ;; esac
+          actual="$(node -p "require('./packages/$PACKAGE/package.json').version")"
+          if [[ "$actual" != "$EXPECTED_VERSION" ]]; then
+            printf 'Package version is %s. Expected %s.\n' "$actual" "$EXPECTED_VERSION" >&2
+            exit 1
+          fi
+      - run: npm ci --ignore-scripts
+      - run: npm test
+      - name: Pack and smoke-test the release
+        run: |
+          mkdir packed
+          npm pack --workspace @i2v-ai/sdk --workspace @i2v-ai/cli --pack-destination "$PWD/packed"
+          node scripts/smoke-packages.mjs packed
+      - name: Stage package for maintainer review
+        env:
+          PACKAGE: ${{ inputs.package }}
+          EXPECTED_VERSION: ${{ inputs.version }}
+        run: npm stage publish "$PWD/packed/i2v-ai-$PACKAGE-$EXPECTED_VERSION.tgz" --access public --tag next

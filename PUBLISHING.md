@@ -8,7 +8,11 @@
 
 ## npm
 
-Confirm that the organization owns the `@i2v-ai` scope. Build both packages, pack them, inspect their file lists, and run `node scripts/smoke-packages.mjs packed` on the two tarballs. The preview tag is `next`. Use staged publishing with a current npm 11 CLI and have an organization maintainer approve the reviewed tarballs with 2FA. Configure trusted publishing from the public repository for later releases. Read the registry metadata and install each exact version after it becomes public.
+Confirm that the organization owns the `@i2v-ai` scope. For the first release, use an authenticated maintainer session with Node.js 22.14+ and npm 11.15+. Download the CLI and SDK tarballs from their GitHub preview releases, verify each download against its release checksum, and install both in a clean directory. Stage each reviewed tarball with `npm stage publish ./TARBALL.tgz --access public --tag next`. Review and approve each stage ID with 2FA. New package names can show a public staging placeholder before approval.
+
+After the packages exist on npm, configure their GitHub Actions trusted publisher with organization `i2v-ai`, repository `i2v-agent-tools`, and workflow filename `npm-stage.yml`. Use stage-only permissions. Run **Stage npm preview** from `main` once per package, providing the exact manifest version. The workflow tests and packs both packages, then stages the selected one using OIDC. An npm maintainer reviews and approves the resulting stage ID.
+
+After approval, check the `next` tag and the approved version on the npm registry. Install each exact version in a clean directory. Check the provenance attached to releases staged through trusted publishing. Promote to `latest` separately after release acceptance.
 
 ## MCP Registry and other directories
 
