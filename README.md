@@ -2,6 +2,16 @@
 
 Use i2v.ai image and video models from your coding agent or terminal. Find models by task, check inputs and the current USD reservation, upload references, and recover a submission after a timeout.
 
+
+## Choose how to use i2v.ai
+
+- **Create media with an Agent.** Install `i2v-models` for model discovery, quoting, safe submission, and recovery.
+- **Add i2v.ai to your app.** Install `i2v-integrate` to help a coding Agent implement your server, workflow, or webhook. Use the [runnable examples](https://github.com/i2v-ai/i2v-api-examples) for a backend integration.
+- **Use the terminal or local MCP.** The [CLI package](./packages/cli) is built from the bundled script. The [TypeScript SDK](./packages/sdk) targets the OpenAPI 2.2.0 rollout. Source builds are available here while npm publication is prepared.
+
+```bash
+npx skills add i2v-ai/i2v-agent-tools --skill i2v-integrate
+```
 ## Agent Skill
 
 Install `i2v-models` from this repository.
