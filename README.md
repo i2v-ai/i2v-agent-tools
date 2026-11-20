@@ -7,7 +7,7 @@ Use i2v.ai image and video models from your coding agent or terminal. Find model
 
 - **Create media with an Agent.** Install `i2v-models` for model discovery, quoting, safe submission, and recovery.
 - **Add i2v.ai to your app.** Install `i2v-integrate` to help a coding Agent implement your server, workflow, or webhook. Use the [runnable examples](https://github.com/i2v-ai/i2v-api-examples) for a backend integration.
-- **Use the terminal or local MCP.** Download the [CLI preview package](#install-preview-packages) or use the bundled script below. For a TypeScript backend, use the [SDK](./packages/sdk).
+- **Use the terminal or local MCP.** Install [`@i2v-ai/cli`](https://www.npmjs.com/package/@i2v-ai/cli) with npm, run it once with `npx`, or use the bundled script below. For a TypeScript backend, use [`@i2v-ai/sdk`](./packages/sdk).
 
 ```bash
 npx skills add i2v-ai/i2v-agent-tools --skill i2v-integrate
@@ -22,27 +22,38 @@ npx skills add i2v-ai/i2v-agent-tools --skill i2v-models
 
 The website also offers `npx skills add https://i2v.ai`. See the [CLI and MCP setup page](https://i2v.ai/cli) for the download and platform-specific examples.
 
-## Install preview packages
+## Install from npm
 
-GitHub Releases carries versioned npm archives. Download the `.tgz` and `SHA256SUMS` from the same release.
-
-| Package | GitHub preview | Node.js |
-| --- | --- | --- |
-| `@i2v-ai/cli` | [CLI 1.2.0](https://github.com/i2v-ai/i2v-agent-tools/releases/tag/developer-preview-2026-11-20) | 20 or newer |
-| `@i2v-ai/sdk` | [SDK 0.1.1](https://github.com/i2v-ai/i2v-agent-tools/releases/tag/sdk-v0.1.1-preview) | 22 or newer |
-
-In the download directory, compute the archive SHA-256 and compare it with the line for that file in its release's `SHA256SUMS`.
+Both packages are published on npm. The CLI needs Node.js 20 or newer; the SDK needs Node.js 22 or newer.
 
 ```bash
-shasum -a 256 i2v-ai-cli-1.2.0.tgz
-shasum -a 256 i2v-ai-sdk-0.1.1.tgz
+npm install --global @i2v-ai/cli   # or run it once: npx --yes @i2v-ai/cli
+npm install @i2v-ai/sdk
 ```
 
-Copy the verified archive to your project directory and run its installation command there. Run both commands if you need both packages.
+`latest` and `next` both point at the reviewed versions (`@i2v-ai/cli@1.2.1`, `@i2v-ai/sdk@0.1.2`). Pin `@next` when you want an explicit preview.
+
+Check both installs without credentials:
 
 ```bash
-npm install --ignore-scripts ./i2v-ai-cli-1.2.0.tgz
-npm install --ignore-scripts ./i2v-ai-sdk-0.1.1.tgz
+npm exec --offline -- i2v list --type image --json
+node --input-type=module -e "import { I2VClient } from '@i2v-ai/sdk'; console.log(await new I2VClient().listModels())"
+```
+
+### Offline archives
+
+GitHub Releases keeps the same npm archives with `SHA256SUMS` for air-gapped or archived installs.
+
+| Package | GitHub release | Node.js |
+| --- | --- | --- |
+| `@i2v-ai/cli` | [CLI 1.2.1](https://github.com/i2v-ai/i2v-agent-tools/releases/tag/cli-v1.2.1-preview) | 20 or newer |
+| `@i2v-ai/sdk` | [SDK 0.1.2](https://github.com/i2v-ai/i2v-agent-tools/releases/tag/sdk-v0.1.2-preview) | 22 or newer |
+
+Compute the archive SHA-256 and compare it with the matching line in the release's `SHA256SUMS`, then install the local archive.
+
+```bash
+shasum -a 256 i2v-ai-cli-1.2.1.tgz
+npm install --ignore-scripts ./i2v-ai-cli-1.2.1.tgz
 ```
 
 Run `npm exec --offline -- i2v list --type image --json` to check the CLI installation. The SDK's `new I2VClient().listModels()` reads the public catalog without credentials. Follow the [SDK quickstart](./packages/sdk/) for authenticated quotes and task recovery.
