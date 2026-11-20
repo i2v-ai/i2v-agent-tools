@@ -6,6 +6,8 @@
 2. Confirm remote MCP OAuth discovery and test the listed tools through supported clients. Record version, transport, authentication method, and the read-only and write results.
 3. Use a tagged GitHub release for the validated installs and archive artifacts. Check the public download from a clean directory.
 
+Run `claude plugin validate --strict .claude-plugin/marketplace.json` and `claude plugin validate --strict .claude-plugin/plugin.json`. Check a clean local marketplace installation before promoting the Claude Code bundle. Keep the plugin version in the portable and Claude Code manifests aligned. When the bundled Skills or MCP configuration change, bump the plugin version so installed copies can refresh. The Skills and remote MCP retain their own versioning.
+
 ## npm
 
 Confirm that the organization owns the `@i2v-ai` scope. For the first release, use an authenticated maintainer session with Node.js 22.14+ and npm 11.15+. Download the CLI and SDK tarballs from their GitHub preview releases, verify each download against its release checksum, and install both in a clean directory. Stage each reviewed tarball with `npm stage publish ./TARBALL.tgz --access public --tag next`. Review and approve each stage ID with 2FA. New package names can show a public staging placeholder before approval.

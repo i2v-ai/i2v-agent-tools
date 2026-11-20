@@ -48,6 +48,24 @@ Local stdio checks for new versions when it connects. Run `doctor` to inspect th
 
 See the [workflow and recovery guide](skills/i2v-models/references/workflow.md) and [MCP documentation](https://i2v.ai/docs/mcp). The Skill also includes guides for [product images](skills/i2v-models/references/product-image.md), [reference-to-video](skills/i2v-models/references/reference-video.md), and [comparing models](skills/i2v-models/references/model-comparison.md).
 
+## Claude Code plugin
+
+Install both Skills and the remote MCP connection from the i2v.ai GitHub marketplace.
+
+```bash
+claude plugin marketplace add i2v-ai/i2v-agent-tools
+claude plugin install i2v-ai@i2v-ai
+```
+
+Restart Claude Code or run `/reload-plugins`. In `/mcp`, select the i2v server supplied by the plugin and complete OAuth. Ask Claude to list image models and your granted scopes before starting a generation. Use `/i2v-ai:i2v-models` for a media workflow or `/i2v-ai:i2v-integrate` when wiring the API into an application. [Claude Code setup and permissions](https://i2v.ai/docs/mcp/claude-code)
+
+To check for a new plugin release and update your installation, run these commands and restart Claude Code.
+
+```bash
+claude plugin marketplace update i2v-ai
+claude plugin update i2v-ai@i2v-ai
+```
+
 ## Feedback
 
 Share integration questions, workflow examples, or client compatibility reports in [Discussions](https://github.com/i2v-ai/i2v-agent-tools/discussions). File a [bug report](https://github.com/i2v-ai/i2v-agent-tools/issues/new/choose) for a reproducible defect. See [Contributing](./CONTRIBUTING.md) for test instructions.
