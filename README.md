@@ -7,7 +7,7 @@ Use i2v.ai image and video models from your coding agent or terminal. Find model
 
 - **Create media with an Agent.** Install `i2v-models` for model discovery, quoting, safe submission, and recovery.
 - **Add i2v.ai to your app.** Install `i2v-integrate` to help a coding Agent implement your server, workflow, or webhook. Use the [runnable examples](https://github.com/i2v-ai/i2v-api-examples) for a backend integration.
-- **Use the terminal or local MCP.** The [CLI package](./packages/cli) is built from the bundled script. The [TypeScript SDK](./packages/sdk) targets the OpenAPI 2.2.0 rollout. Source builds are available here while npm publication is prepared.
+- **Use the terminal or local MCP.** Download the [CLI preview package](#install-preview-packages) or use the bundled script below. For a TypeScript backend, use the [SDK](./packages/sdk).
 
 ```bash
 npx skills add i2v-ai/i2v-agent-tools --skill i2v-integrate
@@ -21,6 +21,31 @@ npx skills add i2v-ai/i2v-agent-tools --skill i2v-models
 ```
 
 The website also offers `npx skills add https://i2v.ai`. See the [CLI and MCP setup page](https://i2v.ai/cli) for the download and platform-specific examples.
+
+## Install preview packages
+
+GitHub Releases carries versioned npm archives. Download the `.tgz` and `SHA256SUMS` from the same release.
+
+| Package | GitHub preview | Node.js |
+| --- | --- | --- |
+| `@i2v-ai/cli` | [CLI 1.2.0](https://github.com/i2v-ai/i2v-agent-tools/releases/tag/developer-preview-2026-11-20) | 20 or newer |
+| `@i2v-ai/sdk` | [SDK 0.1.1](https://github.com/i2v-ai/i2v-agent-tools/releases/tag/sdk-v0.1.1-preview) | 22 or newer |
+
+In the download directory, compute the archive SHA-256 and compare it with the line for that file in its release's `SHA256SUMS`.
+
+```bash
+shasum -a 256 i2v-ai-cli-1.2.0.tgz
+shasum -a 256 i2v-ai-sdk-0.1.1.tgz
+```
+
+Copy the verified archive to your project directory and run its installation command there. Run both commands if you need both packages.
+
+```bash
+npm install --ignore-scripts ./i2v-ai-cli-1.2.0.tgz
+npm install --ignore-scripts ./i2v-ai-sdk-0.1.1.tgz
+```
+
+Run `npm exec --offline -- i2v list --type image --json` to check the CLI installation. The SDK's `new I2VClient().listModels()` reads the public catalog without credentials. Follow the [SDK quickstart](./packages/sdk/) for authenticated quotes and task recovery.
 
 ## Standalone CLI
 
