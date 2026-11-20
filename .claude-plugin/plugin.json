@@ -1,6 +1,6 @@
 {
   "name": "i2v-ai",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Generate images and videos or integrate the i2v.ai media API into your application.",
   "author": {
     "name": "i2v.ai",
