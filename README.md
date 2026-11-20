@@ -48,6 +48,10 @@ Local stdio checks for new versions when it connects. Run `doctor` to inspect th
 
 See the [workflow and recovery guide](skills/i2v-models/references/workflow.md) and [MCP documentation](https://i2v.ai/docs/mcp). The Skill also includes guides for [product images](skills/i2v-models/references/product-image.md), [reference-to-video](skills/i2v-models/references/reference-video.md), and [comparing models](skills/i2v-models/references/model-comparison.md).
 
+## Feedback
+
+Share integration questions, workflow examples, or client compatibility reports in [Discussions](https://github.com/i2v-ai/i2v-agent-tools/discussions). File a [bug report](https://github.com/i2v-ai/i2v-agent-tools/issues/new/choose) for a reproducible defect. See [Contributing](./CONTRIBUTING.md) for test instructions.
+
 ## 中文快速开始
 
 在项目目录运行上面的安装命令。用 `recommend` 按任务选型，用 `plan` 检查实际输入及账户美元报价。上传、生成和查单需要 API Key 或已授权的 MCP 连接。超时后用原凭据和幂等键执行 `recover`，找回任务 ID 后继续查单。中文界面与客户端配置见 [i2v.ai CLI](https://i2v.ai/zh/cli)。

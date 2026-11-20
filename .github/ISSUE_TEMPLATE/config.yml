@@ -1,0 +1,10 @@
+contact_links:
+  - name: Setup questions and workflows
+    url: https://github.com/i2v-ai/i2v-agent-tools/discussions
+    about: Ask about installation, client compatibility, and media workflows.
+  - name: Private vulnerability reporting
+    url: https://github.com/i2v-ai/i2v-agent-tools/security/advisories/new
+    about: Report a security concern privately.
+  - name: Account and billing support
+    url: https://i2v.ai/contact
+    about: Get help with private account or billing information.

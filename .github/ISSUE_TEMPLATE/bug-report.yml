@@ -1,0 +1,50 @@
+name: Report a bug
+description: Report a reproducible issue with the CLI, MCP server, Agent Skills, or TypeScript SDK.
+title: "[Bug] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this public form for reproducible defects. Remove API keys, OAuth tokens, account details, private prompts, and signed media URLs.
+        For security issues, use the repository's private vulnerability reporting link.
+  - type: dropdown
+    id: component
+    attributes:
+      label: Affected component
+      options:
+        - CLI
+        - Remote MCP
+        - Local stdio MCP
+        - Agent Skill
+        - TypeScript SDK
+        - Documentation
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Version and environment
+      description: Include the package or Skill version, OS and runtime, and MCP client and connection method when relevant.
+      placeholder: CLI 1.2.0, Node.js 22, macOS
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Include the smallest command, example, or tool call that reproduces the bug. Use synthetic inputs.
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected and actual behavior
+      description: Include the stage that failed and the HTTP status or error code when available.
+    validations:
+      required: true
+  - type: textarea
+    id: metadata
+    attributes:
+      label: Redacted diagnostic output
+      description: Optional. Include a request ID or relevant output excerpt. Keep credentials and private data out of attachments.
+      render: text
