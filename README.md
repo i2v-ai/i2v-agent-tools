@@ -19,6 +19,8 @@ Run the [bundled script](skills/i2v-models/scripts/i2v-cli.mjs) with Node.js 20 
 ```sh
 node skills/i2v-models/scripts/i2v-cli.mjs list --task text-to-image
 node skills/i2v-models/scripts/i2v-cli.mjs doctor
+node skills/i2v-models/scripts/i2v-cli.mjs balance
+node skills/i2v-models/scripts/i2v-cli.mjs usage --range 30d
 node skills/i2v-models/scripts/i2v-cli.mjs recommend --task image-to-video
 node skills/i2v-models/scripts/i2v-cli.mjs plan gpt-image-2 --input '{"prompt":"A blue ceramic mug on a pale tabletop"}'
 ```
@@ -29,6 +31,10 @@ Set `I2V_API_KEY` in the process environment for authenticated commands. `recomm
 
 - **Remote Streamable HTTP** connects to `https://i2v.ai/api/mcp`. Use OAuth or a Bearer API key according to your client.
 - **Local stdio** runs `node /absolute/path/to/i2v-cli.mjs mcp`. Set `I2V_API_KEY` in the client environment. To let the local process upload and download files in your project, set `I2V_WORKSPACE_DIR` to that project's directory.
+
+Use `get_account` for the wallet and current OAuth scopes. Use `get_usage` for account-wide settled charges, usage refunds and net spend by UTC date. API-key clients can also call `GET /api/v1/account` and `GET /api/v1/account/usage?range=30d` on the [API host](https://api.i2v.ai).
+
+Local stdio checks for new versions when it connects. Run `doctor` to inspect the downloaded CLI, bundled Skill and MCP server. Reinstall the Skill in its original scope when ready to update, and restart your client to reload local stdio or refresh the remote tool list. See the [MCP setup page](https://i2v.ai/mcp) for client permissions and connection steps.
 
 See the [workflow and recovery guide](skills/i2v-models/references/workflow.md) and [MCP documentation](https://i2v.ai/docs/mcp). The Skill also includes guides for [product images](skills/i2v-models/references/product-image.md), [reference-to-video](skills/i2v-models/references/reference-video.md), and [comparing models](skills/i2v-models/references/model-comparison.md).
 
