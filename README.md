@@ -57,7 +57,7 @@ claude plugin marketplace add i2v-ai/i2v-agent-tools
 claude plugin install i2v-ai@i2v-ai
 ```
 
-Restart Claude Code or run `/reload-plugins`. In `/mcp`, select the i2v server supplied by the plugin and complete OAuth. Ask Claude to list image models and your granted scopes before starting a generation. Use `/i2v-ai:i2v-models` for a media workflow or `/i2v-ai:i2v-integrate` when wiring the API into an application. [Claude Code setup and permissions](https://i2v.ai/docs/mcp/claude-code)
+Restart Claude Code or run `/reload-plugins`. In `/mcp`, select `plugin:i2v-ai:i2v` and complete OAuth. On the i2v.ai consent screen, select write access if you want Claude to upload assets or submit generation jobs. Ask Claude to list image models and check your granted scopes. Use `/i2v-ai:i2v-models` for a media workflow or `/i2v-ai:i2v-integrate` when wiring the API into an application. [Claude Code setup and permissions](https://i2v.ai/docs/mcp/claude-code)
 
 To check for a new plugin release and update your installation, run these commands and restart Claude Code.
 
