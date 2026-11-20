@@ -1,9 +1,12 @@
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { readFile, readdir } from 'node:fs/promises';
 
 async function readJson(path) {
   return JSON.parse(await readFile(new URL(`../${path}`, import.meta.url), 'utf8'));
 }
+
+const files = await readdir(new URL('../', import.meta.url));
+assert.ok(!files.includes('package.json'), 'Keep the npm workspace in packages/ to avoid plugin dependency installs');
 
 const [portable, claude, marketplace, portableMcp, claudeMcp] = await Promise.all(
   ['plugin.json', '.claude-plugin/plugin.json', '.claude-plugin/marketplace.json', 'mcp.json', '.mcp.json'].map(readJson),

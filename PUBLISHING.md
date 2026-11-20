@@ -6,7 +6,7 @@
 2. Confirm remote MCP OAuth discovery and test the listed tools through supported clients. Record version, transport, authentication method, and the read-only and write results.
 3. Use a tagged GitHub release for the validated installs and archive artifacts. Check the public download from a clean directory.
 
-Run `claude plugin validate --strict .claude-plugin/marketplace.json` and `claude plugin validate --strict .claude-plugin/plugin.json`. Check a clean local marketplace installation before promoting the Claude Code bundle. Keep the plugin version in the portable and Claude Code manifests aligned. When the bundled Skills or MCP configuration change, bump the plugin version so installed copies can refresh. The Skills and remote MCP retain their own versioning.
+Run `claude plugin validate --strict .claude-plugin/marketplace.json` and `claude plugin validate --strict .claude-plugin/plugin.json`. Check a clean Git marketplace installation before promoting the Claude Code bundle. Keep the npm workspace under `packages/` so the Claude Code plugin installs without package dependencies. Keep the plugin version in the portable and Claude Code manifests aligned. When the bundled Skills or MCP configuration change, bump the plugin version so installed copies can refresh. The Skills and remote MCP retain their own versioning.
 
 ## npm
 

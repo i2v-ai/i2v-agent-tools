@@ -18,9 +18,10 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           cache: npm
-      - run: npm ci --ignore-scripts
-      - run: npm test
+          cache-dependency-path: packages/package-lock.json
+      - run: npm --prefix packages ci --ignore-scripts
+      - run: npm --prefix packages test
       - run: |
           mkdir packed
-          npm pack --workspace @i2v-ai/sdk --workspace @i2v-ai/cli --pack-destination "$PWD/packed"
+          npm --prefix packages pack --workspace @i2v-ai/sdk --workspace @i2v-ai/cli --pack-destination "$PWD/packed"
           node scripts/smoke-packages.mjs packed

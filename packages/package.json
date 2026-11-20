@@ -1,10 +1,10 @@
 {
   "name": "@i2v-ai/agent-tools",
   "private": true,
-  "workspaces": ["packages/*"],
+  "workspaces": ["cli", "sdk"],
   "engines": { "node": ">=22" },
   "scripts": {
     "build": "npm run build --workspace @i2v-ai/sdk && npm run build --workspace @i2v-ai/cli",
-    "test": "node scripts/check-plugin-manifests.mjs && npm run build && npm run test --workspace @i2v-ai/sdk && npm run test --workspace @i2v-ai/cli"
+    "test": "node ../scripts/check-plugin-manifests.mjs && npm run build && npm run test --workspace @i2v-ai/sdk && npm run test --workspace @i2v-ai/cli"
   }
 }
