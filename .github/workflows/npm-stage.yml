@@ -13,6 +13,10 @@ on:
         description: Expected package.json version
         required: true
         type: string
+      sha256:
+        description: SHA-256 of the reviewed GitHub preview tarball
+        required: true
+        type: string
 
 permissions: {}
 
@@ -31,7 +35,7 @@ jobs:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
         with:
-          node-version: 24
+          node-version: 24.15.0
           registry-url: https://registry.npmjs.org
           package-manager-cache: false
       - run: npm install --global --ignore-scripts npm@11.21.3
@@ -39,8 +43,13 @@ jobs:
         env:
           PACKAGE: ${{ inputs.package }}
           EXPECTED_VERSION: ${{ inputs.version }}
+          EXPECTED_SHA256: ${{ inputs.sha256 }}
         run: |
           case "$PACKAGE" in cli|sdk) ;; *) exit 1 ;; esac
+          if [[ ! "$EXPECTED_SHA256" =~ ^[[:xdigit:]]{64}$ ]]; then
+            printf 'Enter the 64-digit SHA-256 of the reviewed tarball.\n' >&2
+            exit 1
+          fi
           actual="$(node -p "require('./packages/$PACKAGE/package.json').version")"
           if [[ "$actual" != "$EXPECTED_VERSION" ]]; then
             printf 'Package version is %s. Expected %s.\n' "$actual" "$EXPECTED_VERSION" >&2
@@ -57,4 +66,8 @@ jobs:
         env:
           PACKAGE: ${{ inputs.package }}
           EXPECTED_VERSION: ${{ inputs.version }}
-        run: npm stage publish "$PWD/packed/i2v-ai-$PACKAGE-$EXPECTED_VERSION.tgz" --access public --tag next
+          EXPECTED_SHA256: ${{ inputs.sha256 }}
+        run: |
+          archive="$PWD/packed/i2v-ai-$PACKAGE-$EXPECTED_VERSION.tgz"
+          printf '%s  %s\n' "${EXPECTED_SHA256,,}" "$archive" | sha256sum --check
+          npm stage publish "$archive" --access public --tag next

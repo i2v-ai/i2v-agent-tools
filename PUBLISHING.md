@@ -6,6 +6,8 @@
 2. Confirm remote MCP OAuth discovery and test the listed tools through supported clients. Record version, transport, authentication method, and the read-only and write results.
 3. Use a tagged GitHub release for the validated installs and archive artifacts. Check the public download from a clean directory.
 
+For an npm preview, start from a clean checkout of the release commit on Linux with Node.js 24.15.0 and npm 11.21.3, as used by the staging workflow. Run `npm --prefix packages ci --ignore-scripts` and `npm --prefix packages test`. Pack with `npm --prefix packages pack --workspace @i2v-ai/sdk --workspace @i2v-ai/cli --pack-destination "$PWD/packed"` in a newly created `packed/` directory, then run `node scripts/smoke-packages.mjs packed`. For each package, attach its `.tgz` and a `SHA256SUMS` file containing that tarball's checksum to the corresponding versioned GitHub prerelease. Verify the public download against the checksum and record the release tag and source commit.
+
 Run `claude plugin validate --strict .claude-plugin/marketplace.json` and `claude plugin validate --strict .claude-plugin/plugin.json`. Check a clean Git marketplace installation before promoting the Claude Code bundle. Keep the npm workspace under `packages/` so the Claude Code plugin installs without package dependencies. Keep the plugin version in the portable and Claude Code manifests aligned. When the bundled Skills or MCP configuration change, bump the plugin version so installed copies can refresh. The Skills and remote MCP retain their own versioning.
 
 ## npm
@@ -14,7 +16,7 @@ Confirm that the organization owns the `@i2v-ai` scope. For the first release, u
 
 CI installs the packed CLI on Node.js 20 and installs both packages on Node.js 22 and 24. It calls a loopback model catalog through the installed CLI command and SDK import. Both release packages are also checked before npm preview staging.
 
-After the packages exist on npm, configure their GitHub Actions trusted publisher with organization `i2v-ai`, repository `i2v-agent-tools`, and workflow filename `npm-stage.yml`. Use stage-only permissions. Run **Stage npm preview** from `main` once per package, providing the exact manifest version. The workflow tests and packs both packages, then stages the selected one using OIDC. An npm maintainer reviews and approves the resulting stage ID.
+After the packages exist on npm, configure their GitHub Actions trusted publisher with organization `i2v-ai`, repository `i2v-agent-tools`, and workflow filename `npm-stage.yml`. Use stage-only permissions. Run **Stage npm preview** from `main` once per package with the exact manifest version and the SHA-256 from the reviewed GitHub release. The workflow tests and packs both packages, verifies the selected archive against that checksum, and stages it using OIDC. An npm maintainer reviews and approves the resulting stage ID.
 
 After approval, check the `next` tag and the approved version on the npm registry. Install each exact version in a clean directory. Check the provenance attached to releases staged through trusted publishing. Promote to `latest` separately after release acceptance.
 
