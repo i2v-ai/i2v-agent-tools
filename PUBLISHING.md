@@ -12,11 +12,13 @@ Run `claude plugin validate --strict .claude-plugin/marketplace.json` and `claud
 
 ## npm
 
-Confirm that the organization owns the `@i2v-ai` scope. For the first release, use an authenticated maintainer session with Node.js 22.14+ and npm 11.15+. Download the CLI and SDK tarballs from their GitHub preview releases, verify each download against its release checksum, and install both in a clean directory. Stage each reviewed tarball with `npm stage publish ./TARBALL.tgz --access public --tag next`. Review and approve each stage ID with 2FA. New package names can show a public staging placeholder before approval.
+Confirm that the organization owns the `@i2v-ai` scope. For the first release, use an authenticated maintainer session with Node.js 22.14+ and npm 11.15+. Download the CLI and SDK tarballs from their GitHub preview releases, verify each download against its release checksum, and install both in a clean directory. Stage each reviewed tarball with `npm stage publish ./TARBALL.tgz --access public --tag next`. New package names can show a public staging placeholder before approval.
+
+For each stage ID, run `npm stage view STAGE_ID` to check the package name and version. In a clean directory, run `npm stage download STAGE_ID` and compute the downloaded file's SHA-256. Compare it with the matching archive entry in the GitHub release's `SHA256SUMS`. Once the bytes match, run `npm stage approve STAGE_ID` as a maintainer and complete 2FA. Use the same review for a stage created by CI. [npm staged publishing](https://docs.npmjs.com/staged-publishing/)
 
 CI installs the packed CLI on Node.js 20 and installs both packages on Node.js 22 and 24. It calls a loopback model catalog through the installed CLI command and SDK import. Both release packages are also checked before npm preview staging.
 
-After the packages exist on npm, configure their GitHub Actions trusted publisher with organization `i2v-ai`, repository `i2v-agent-tools`, and workflow filename `npm-stage.yml`. Use stage-only permissions. Run **Stage npm preview** from `main` once per package with the exact manifest version and the SHA-256 from the reviewed GitHub release. The workflow tests and packs both packages, verifies the selected archive against that checksum, and stages it using OIDC. An npm maintainer reviews and approves the resulting stage ID.
+After the packages exist on npm, configure their GitHub Actions trusted publisher with organization `i2v-ai`, repository `i2v-agent-tools`, and workflow filename `npm-stage.yml`. Use stage-only permissions. Run **Stage npm preview** from `main` once per package with the exact manifest version and the SHA-256 from the reviewed GitHub release. The workflow tests and packs both packages, verifies the selected archive against that checksum, and stages it using OIDC.
 
 After approval, check the `next` tag and the approved version on the npm registry. Install each exact version in a clean directory. Check the provenance attached to releases staged through trusted publishing. Promote to `latest` separately after release acceptance.
 
