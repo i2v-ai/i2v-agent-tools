@@ -25,3 +25,15 @@ jobs:
           mkdir packed
           npm --prefix packages pack --workspace @i2v-ai/sdk --workspace @i2v-ai/cli --pack-destination "$PWD/packed"
           node scripts/smoke-packages.mjs packed
+
+  cli-minimum-node:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: |
+          mkdir packed
+          npm --prefix packages pack --workspace @i2v-ai/cli --pack-destination "$PWD/packed"
+          node scripts/smoke-packages.mjs packed --cli-only
