@@ -22,6 +22,16 @@ After approval, check the `next` tag and the approved version on the npm registr
 
 Run the **Validate and publish MCP Registry metadata** workflow with **publish** unchecked first. After the advertised remote endpoint and version have been verified and release approval has been recorded, run the same workflow with publication enabled on the default branch. Query the [Registry entry](https://registry.modelcontextprotocol.io/v0.1/servers/io.github.i2v-ai%2Fmcp/versions/latest) and check the version and HTTPS endpoint.
 
-The portable root plugin manifest can be used for Cursor. Validate direct install, OAuth authorization, and read-only listing before requesting Marketplace review. GitHub Copilot can install the endpoint directly while the GitHub Registry listing is pending. Verify the Glama listing separately. Refer to the [client guides](https://i2v.ai/docs/mcp) for configuration.
+### Cursor Marketplace
+
+Cursor loads the root `plugin.json`, `mcp.json`, and `skills/` as one Agent Plugin. To review an exact candidate, extract the Git archive into `~/.cursor/plugins/local/i2v-ai` in a clean Cursor profile and reload the editor. Use the [local plugin instructions](https://cursor.com/docs/plugins#test-plugins-locally) for your client and team settings.
+
+Confirm the plugin exposes `i2v-models`, `i2v-integrate`, and the `plugin-i2v-ai-i2v` connection. Use an authorized test account to connect with read-only access, list image models, and check granted scopes with `get_account`. Revoke the connection and confirm that the prior authorization can no longer read account data. Use the [Cursor connection guide](https://i2v.ai/docs/mcp/cursor) for permissions and troubleshooting.
+
+After validating the public commit and obtaining release approval, submit `https://github.com/i2v-ai/i2v-agent-tools` in the [Cursor Marketplace form](https://cursor.com/marketplace/publish). Once approved, install from Marketplace in a clean project and repeat the read-only check. Record the version and public listing URL. See the [Cursor submission checklist](https://cursor.com/docs/reference/plugins#submission-checklist).
+
+### Other directories
+
+GitHub Copilot can install the endpoint directly while the GitHub Registry listing is pending. Verify the Glama listing separately. Refer to the [client guides](https://i2v.ai/docs/mcp) for configuration.
 
 OpenAI and Anthropic directory submissions require product and policy review in addition to native client tests. Prepare an isolated review workspace, an accessible demo recording, accurate privacy and support links, and realistic success and refusal cases. For OpenAI, clarify prepaid use and upstream service rights. For Anthropic, obtain written permission for general media generation before directory submission.
