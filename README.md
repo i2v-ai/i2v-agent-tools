@@ -8,7 +8,7 @@ Use i2v.ai image and video models from your coding agent or terminal. Find model
 - **Create media with an Agent.** Install `i2v-models` for model discovery, quoting, safe submission, and recovery.
 - **Add i2v.ai to your app.** Install `i2v-integrate` to help a coding Agent implement your server, workflow, or webhook. Use the [runnable examples](https://github.com/i2v-ai/i2v-api-examples) for a backend integration.
 - **Use the terminal or local MCP.** Install [`@i2v-ai/cli`](https://www.npmjs.com/package/@i2v-ai/cli) with npm, run it once with `npx`, or use the bundled script below. For a TypeScript backend, use [`@i2v-ai/sdk`](./packages/sdk).
-- **Build a Python backend.** Use the [Python SDK](./packages/python-sdk), which mirrors the TypeScript client without runtime dependencies.
+- **Build a Python backend.** Install [`i2v-ai`](https://pypi.org/project/i2v-ai/) from PyPI; the [Python SDK](./packages/python-sdk) mirrors the TypeScript client without runtime dependencies.
 - **Generate from CI.** Add the [GitHub Action](./action) to quote, submit inside a USD ceiling, and download the result as a workflow artifact.
 - **Explore the API by hand.** Import the [Postman collection](./collections/i2v-api.postman_collection.json).
 
@@ -61,6 +61,14 @@ npm install --ignore-scripts ./i2v-ai-cli-1.2.1.tgz
 
 Run `npm exec --offline -- i2v list --type image --json` to check the CLI installation. The SDK's `new I2VClient().listModels()` reads the public catalog without credentials. Follow the [SDK quickstart](./packages/sdk/) for authenticated quotes and task recovery.
 
+## Homebrew
+
+```bash
+brew install i2v-ai/tap/i2v
+```
+
+The tap installs the CLI and its Node.js dependency, then exposes the `i2v` command. See [i2v-ai/homebrew-tap](https://github.com/i2v-ai/homebrew-tap).
+
 ## Python SDK
 
 ```bash
@@ -68,6 +76,8 @@ pip install i2v-ai
 ```
 
 The client mirrors the TypeScript SDK: model discovery, quotes, uploads, task creation, polling, recovery, and signed webhook verification. It needs Python 3.10 or newer and has no runtime dependencies. See [packages/python-sdk](./packages/python-sdk) for examples.
+
+New versions publish from a `python-vX.Y.Z` tag through GitHub OIDC (`.github/workflows/publish-pypi.yml`); the workflow checks that the tag matches the version in `pyproject.toml`.
 
 ## GitHub Action
 
