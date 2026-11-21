@@ -1,0 +1,25 @@
+name: Generate a product image
+on:
+  workflow_dispatch:
+    inputs:
+      prompt:
+        description: Product prompt
+        required: true
+        default: A ceramic mug on an oak table
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - id: generate
+        uses: i2v-ai/i2v-agent-tools/action@main
+        with:
+          api-key: ${{ secrets.I2V_API_KEY }}
+          model: gpt-image-2
+          input: '{"prompt":"${{ inputs.prompt }}"}'
+          max-cost-usd: "0.20"
+          output-file: out/product
+      - uses: actions/upload-artifact@v4
+        with:
+          name: product-image
+          path: ${{ steps.generate.outputs.output-path }}

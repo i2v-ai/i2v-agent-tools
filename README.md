@@ -8,6 +8,9 @@ Use i2v.ai image and video models from your coding agent or terminal. Find model
 - **Create media with an Agent.** Install `i2v-models` for model discovery, quoting, safe submission, and recovery.
 - **Add i2v.ai to your app.** Install `i2v-integrate` to help a coding Agent implement your server, workflow, or webhook. Use the [runnable examples](https://github.com/i2v-ai/i2v-api-examples) for a backend integration.
 - **Use the terminal or local MCP.** Install [`@i2v-ai/cli`](https://www.npmjs.com/package/@i2v-ai/cli) with npm, run it once with `npx`, or use the bundled script below. For a TypeScript backend, use [`@i2v-ai/sdk`](./packages/sdk).
+- **Build a Python backend.** Use the [Python SDK](./packages/python-sdk), which mirrors the TypeScript client without runtime dependencies.
+- **Generate from CI.** Add the [GitHub Action](./action) to quote, submit inside a USD ceiling, and download the result as a workflow artifact.
+- **Explore the API by hand.** Import the [Postman collection](./collections/i2v-api.postman_collection.json).
 
 ```bash
 npx skills add i2v-ai/i2v-agent-tools --skill i2v-integrate
@@ -57,6 +60,31 @@ npm install --ignore-scripts ./i2v-ai-cli-1.2.1.tgz
 ```
 
 Run `npm exec --offline -- i2v list --type image --json` to check the CLI installation. The SDK's `new I2VClient().listModels()` reads the public catalog without credentials. Follow the [SDK quickstart](./packages/sdk/) for authenticated quotes and task recovery.
+
+## Python SDK
+
+```bash
+pip install ./packages/python-sdk
+```
+
+The client mirrors the TypeScript SDK: model discovery, quotes, uploads, task creation, polling, recovery, and signed webhook verification. It needs Python 3.10 or newer and has no runtime dependencies. See [packages/python-sdk](./packages/python-sdk) for examples.
+
+## GitHub Action
+
+```yaml
+- uses: i2v-ai/i2v-agent-tools/action@main
+  with:
+    api-key: ${{ secrets.I2V_API_KEY }}
+    model: gpt-image-2
+    input: '{"prompt":"A ceramic mug on an oak table"}'
+    max-cost-usd: "0.20"
+```
+
+The action quotes first, stops before submitting when the quote exceeds the ceiling, waits for the task, and downloads the result. See [action](./action) and [examples/github-action.yml](./examples/github-action.yml).
+
+## Postman collection
+
+Import [collections/i2v-api.postman_collection.json](./collections/i2v-api.postman_collection.json) and set the `apiKey` variable. The collection covers the catalog, account balance and usage, quote, submission, receipt lookup, task status, cancellation, and uploads.
 
 ## Standalone CLI
 

@@ -1,0 +1,60 @@
+name: Generate media with i2v.ai
+description: Quote a media request, submit it inside a USD ceiling, and download the result.
+author: i2v.ai
+branding:
+  icon: image
+  color: purple
+inputs:
+  api-key:
+    description: i2v.ai API key. Store it in a repository secret.
+    required: true
+  model:
+    description: Model ID, for example gpt-image-2 or seedance-2-0.
+    required: true
+  input:
+    description: Model inputs as a JSON object, for example {"prompt":"A ceramic mug"}.
+    required: true
+  max-cost-usd:
+    description: Approved USD ceiling for this task. The action stops before submitting when the quote is higher.
+    required: true
+  output-file:
+    description: Path for the downloaded result, without or with an extension.
+    required: false
+    default: i2v-output
+  idempotency-key:
+    description: Stable operation key. Defaults to the workflow run and attempt.
+    required: false
+  wait-seconds:
+    description: How long to poll the task before failing.
+    required: false
+    default: "900"
+outputs:
+  task-id:
+    description: Accepted i2v.ai task ID.
+  output-path:
+    description: Absolute path of the downloaded media file.
+  quote-amount:
+    description: Quoted maximum USD reservation.
+  quote-currency:
+    description: Quote currency, normally USD.
+runs:
+  using: composite
+  steps:
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22
+    - name: Install the i2v.ai SDK
+      shell: bash
+      run: npm install --no-save --no-audit --no-fund @i2v-ai/sdk@0.1.2
+    - name: Generate
+      shell: bash
+      env:
+        I2V_API_KEY: ${{ inputs.api-key }}
+        I2V_MODEL: ${{ inputs.model }}
+        I2V_INPUT: ${{ inputs.input }}
+        I2V_MAX_COST_USD: ${{ inputs.max-cost-usd }}
+        I2V_OUTPUT_FILE: ${{ inputs.output-file }}
+        I2V_IDEMPOTENCY_KEY: ${{ inputs.idempotency-key }}
+        I2V_WAIT_SECONDS: ${{ inputs.wait-seconds }}
+      run: node "$GITHUB_ACTION_PATH/generate.mjs"
