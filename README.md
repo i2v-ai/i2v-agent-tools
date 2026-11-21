@@ -64,7 +64,7 @@ Run `npm exec --offline -- i2v list --type image --json` to check the CLI instal
 ## Python SDK
 
 ```bash
-pip install ./packages/python-sdk
+pip install i2v-ai
 ```
 
 The client mirrors the TypeScript SDK: model discovery, quotes, uploads, task creation, polling, recovery, and signed webhook verification. It needs Python 3.10 or newer and has no runtime dependencies. See [packages/python-sdk](./packages/python-sdk) for examples.
