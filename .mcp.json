@@ -1,8 +1,0 @@
-{
-  "mcpServers": {
-    "i2v": {
-      "type": "http",
-      "url": "https://i2v.ai/api/mcp"
-    }
-  }
-}
